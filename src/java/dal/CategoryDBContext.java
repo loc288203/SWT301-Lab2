@@ -37,19 +37,23 @@ public class CategoryDBContext extends DBContext { //thao tác với bảng cate
         return list;
     }
 
-    public void insertCategory(String name) {
-        try {
-            String sql = "INSERT INTO [Category]\n"
-                    + "           ([cname])\n"
-                    + "     VALUES\n"
-                    + "           (?)";
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, name);
-            stm.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(AcountDBContext.class.getName()).log(Level.SEVERE, null, ex);
+    public int insertCategory(String name) {
+    int newId = -1;
+    try {
+        String sql = "INSERT INTO [Category] ([cname]) VALUES (?)";
+        PreparedStatement stm = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm.setString(1, name);
+        stm.executeUpdate();
+
+        ResultSet generatedKeys = stm.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            newId = generatedKeys.getInt(1); // Get the new ID
         }
+    } catch (SQLException ex) {
+        Logger.getLogger(CategoryDBContext.class.getName()).log(Level.SEVERE, null, ex);
     }
+    return newId; // Return the new ID
+}
 
     public Category getCategoryById(int id) {
         try {
