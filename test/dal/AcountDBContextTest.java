@@ -51,11 +51,37 @@ public class AcountDBContextTest {
         assertTrue(accounts.size() > 0);
     }
 
-    @Test
+     @Test
     public void testLogin() {
+        // Valid username and password
         Account account = accountDB.login(testAccount.getUser(), testAccount.getPass());
         assertNotNull(account);
         assertEquals(testAccount.getUser(), account.getUser());
+
+        // Invalid username
+        account = accountDB.login("invalidUser", "testPass");
+        assertNull(account);
+
+        // Empty username
+        account = accountDB.login("", "testPass");
+        assertNull(account);
+
+        // Null username
+        account = accountDB.login(null, "testPass");
+        assertNull(account);
+
+        // Username with special characters
+        account = accountDB.login("user@name", "testPass");
+        assertNull(account);
+
+        // Username exceeds maximum length
+        String longUsername = "a".repeat(256); // Assuming the max length is 255
+        account = accountDB.login(longUsername, "testPass");
+        assertNull(account);
+
+        // Username purely numeric
+        account = accountDB.login("123456", "testPass");
+        assertNull(account);
     }
 
     @Test
@@ -65,11 +91,37 @@ public class AcountDBContextTest {
         assertEquals(testAccount.getUser(), account.getUser());
     }
 
-    @Test
+     @Test
     public void testCheckAccountExist() {
-        Account account = accountDB.checkAccountExist(testAccount.getUser());
+        // Valid username
+        Account account = accountDB.checkAccountExist("testUser");
         assertNotNull(account);
-        assertEquals(testAccount.getUser(), account.getUser());
+        assertEquals("testUser", account.getUser());
+
+        // Invalid username
+        account = accountDB.checkAccountExist("invalidUser");
+        assertNull(account);
+
+        // Empty username
+        account = accountDB.checkAccountExist("");
+        assertNull(account);
+
+        // Null username
+        account = accountDB.checkAccountExist(null);
+        assertNull(account);
+
+        // Username with special characters
+        account = accountDB.checkAccountExist("user@name");
+        assertNull(account);
+
+        // Username exceeds maximum length
+        String longUsername = "a".repeat(256); // Assuming the max length is 255
+        account = accountDB.checkAccountExist(longUsername);
+        assertNull(account);
+
+        // Username purely numeric
+        account = accountDB.checkAccountExist("123456");
+        assertNull(account);
     }
 
     @Test
