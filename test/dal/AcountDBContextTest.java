@@ -59,24 +59,24 @@ public class AcountDBContextTest {
         assertEquals(testAccount.getUser(), account.getUser());
 
         // Invalid username
-        account = accountDB.login("invalidUser", "testPass");
+        account = accountDB.login("admin", "admin");
         assertNull(account);
 
         // Empty username
-        account = accountDB.login("", "testPass");
+        account = accountDB.login("", "admin");
         assertNull(account);
 
         // Null username
-        account = accountDB.login(null, "testPass");
+        account = accountDB.login(null, "@1234loc");
         assertNull(account);
 
         // Username with special characters
-        account = accountDB.login("user@name", "testPass");
+        account = accountDB.login("loc@#12", "testPass");
         assertNull(account);
 
         // Username exceeds maximum length
-        String longUsername = "a".repeat(256); // Assuming the max length is 255
-        account = accountDB.login(longUsername, "testPass");
+        String longUsername = "a".repeat(15); // Assuming the max length is 15
+        account = accountDB.login("loc123456loc123456", "testPass");
         assertNull(account);
 
         // Username purely numeric
@@ -94,12 +94,12 @@ public class AcountDBContextTest {
      @Test
     public void testCheckAccountExist() {
         // Valid username
-        Account account = accountDB.checkAccountExist("testUser");
+        Account account = accountDB.checkAccountExist("admin");
         assertNotNull(account);
-        assertEquals("testUser", account.getUser());
+        assertEquals("admin", account.getUser());
 
         // Invalid username
-        account = accountDB.checkAccountExist("invalidUser");
+        account = accountDB.checkAccountExist("locdo");
         assertNull(account);
 
         // Empty username
@@ -111,12 +111,12 @@ public class AcountDBContextTest {
         assertNull(account);
 
         // Username with special characters
-        account = accountDB.checkAccountExist("user@name");
+        account = accountDB.checkAccountExist("loc@do");
         assertNull(account);
 
         // Username exceeds maximum length
-        String longUsername = "a".repeat(256); // Assuming the max length is 255
-        account = accountDB.checkAccountExist(longUsername);
+        String longUsername = "a".repeat(15); // Assuming the max length is 15
+        account = accountDB.checkAccountExist("loc123456loc123456");
         assertNull(account);
 
         // Username purely numeric
