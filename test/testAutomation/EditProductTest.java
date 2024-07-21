@@ -9,11 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class TestAutoEditProductController {
+public class EditProductTest {
 
     public static void main(String[] args) throws InterruptedException {
         // Set path to chromedriver executable (adjust path as needed)
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\ADMIN\\Downloads\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\PHUONG THAO\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
         // Initialize Chrome driver
         WebDriver driver = new ChromeDriver();
         // Test data for different cases
